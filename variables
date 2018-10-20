@@ -1,18 +1,40 @@
--	name: print message
-hosts: all
-Tasks: 
+- name: Play for Define and access variables
+  hosts: all
   vars:
-    URL: www.google.com	
-    debug:
-         msg : “{{URL}}”
+    num: 124
+  tasks:
+    - name: Print Data in a variable
+      debug:
+        msg: "number is  = {{num}}"
 
+- name: Play for taking input from user
+  hosts: all
+  vars_prompt:
+    name: num2
+    prompt: “enter num2”
+  tasks:
+    - name: Print Data entered by user
+      debug:
+        msg: "number 2 is = {{num2}}"
 
--	name: Ask for input from user
-hosts: all
-vars_prompt:
-      name: entered
-      prompt: “enter anything” 	
-    Debug:
-         Msg : “ you entered {{entered}}”
+- name: Play to access variable from ansible-playbook cli
+  hosts: all
+  tasks:
+    - name: Print variable from a cli
+      debug:
+        msg: "number 3 is = {{num3}}"
 
+- name: Play to access varibale from hosts files
+  hosts: all
+  tasks:
+    - name: Print variable from a cli
+      debug:
+        msg: "number 5 is {{num5}}"
 
+- name: Play to get hostname
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Print hostname
+      debug:
+        msg: "hosts name is {{ansible_hostname}}"
