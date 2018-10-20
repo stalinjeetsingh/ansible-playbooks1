@@ -1,0 +1,22 @@
+- name: Play to register variable to out file
+  hosts: all
+  tasks:
+    - name: execute some shell command
+      shell: uptime
+      register: out
+
+    - name: print the regsitred variable
+      debug:
+        msg: "{{out}}" 
+******************************************************                             
+- name: Play to register variable to out file
+  hosts: all
+  tasks:
+    - name: execute some shell command
+      shell: uptime
+      register: out
+
+    - name: print the regsitred variable
+      debug:
+        msg: "{{out.start}}"
+                             
