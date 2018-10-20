@@ -23,7 +23,10 @@
     - name: Print variable from a cli
       debug:
         msg: "number 3 is = {{num3}}"
+       # in the command line after ansiplay-platbook va.yml put -e num3
+       
 
+#vi hosts than enetr num5
 - name: Play to access varibale from hosts files
   hosts: all
   tasks:
