@@ -1,0 +1,25 @@
+- name: install httpd server
+  package:
+     name: httpd
+     state: present
+
+- name: proxy config
+  template:
+     src: tomcat.conf.j2
+     dest: /etc/httpd/conf.d/tomcat.conf
+
+
+- name: start the service and enable it
+  service:
+     name: httpd
+     state: started
+     enabled: yes
+     
+     *********************************
+     ##template##
+     #File created in template :tomcat.conf.j2 
+     
+     
+     ProxyRequests Off
+ProxyPass /student http://{{ansible_hostname}}:8080/student
+ProxyPassReverse /student http://{{ansible_hostname}}:8080/student
