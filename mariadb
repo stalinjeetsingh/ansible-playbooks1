@@ -1,3 +1,4 @@
+# to install maria DB package including MySQL which is a prerequisite for Maria DB
 - name: install mariadb
   package:
      name: "{{item}}"
@@ -6,14 +7,47 @@
      - MySQL-python
      - mariadb-server
 
+# to start the service. if case of reboot enabled yes will again start it
 - name: Start service mariadb and enable, if not started
   service:
     name: mariadb
     state: started
     enabled: yes
 
-# creating database "studentapp"
+# module to createa database studnet app
 - name: Create a new database with name 'stduentapp'
   mysql_db:
     name: studentapp
+    state: present
+    
+    
+# dump whatver data you want to put into the DB table here
+- name: Copy database dump file
+  copy:
+    src: student.sql
+    dest: /tmp/student.sql
+    
+    
+# now import that dumped data into the table 
+- name: Import studnet.sql
+  mysql_db:
+    state: import
+    name: all
+    target: /tmp/student.sql
+
+# you can use to store user name and password in vars file here we are just callong that file.you can also hardcode user name and password if you
+#want than you donot need this step
+
+- name: include varibales
+  include_vars:
+         file: dbpara.yml
+
+# creating user and giving premissions.you can also hardcode user name and password here in case you plan not to user vars file. 
+#replace DBUSER and DBPASWORD in thta case with respective user/password
+
+- name: creating user
+  mysql_user:
+    name: "{{DBUSER}}"
+    password: "{{DBPASSWORD}}"
+    priv: '*.*:ALL,GRANT'
     state: present
