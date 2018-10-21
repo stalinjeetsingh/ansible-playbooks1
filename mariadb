@@ -1,0 +1,19 @@
+- name: install mariadb
+  package:
+     name: "{{item}}"
+     state: present
+  loop:
+     - MySQL-python
+     - mariadb-server
+
+- name: Start service mariadb and enable, if not started
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+# creating database "studentapp"
+- name: Create a new database with name 'stduentapp'
+  mysql_db:
+    name: studentapp
+    state: present
